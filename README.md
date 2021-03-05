@@ -300,7 +300,22 @@ cd /opt/apacheconf
 
 ```
 docker exec apache service apache2 reload
+```
+## Configurar dns local
+```
+#como nao temos um dns e esse exemplo e apenas para aprendizado
+#edite o arquivo /etc/hosts como as linhas abaixo
+```
+```
+127.0.0.1 appa.local
+127.0.0.1 appb.local
+```
+
+```
 #teste acessando no browser http://appa.local
 #teste acessando no browser http://appb.local
 ```
+
+#Fim
+
 
