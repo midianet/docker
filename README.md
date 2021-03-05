@@ -234,3 +234,73 @@ docker push [seu login dockerhub]/appb
 # exemplo dockerpush midianet/appb
 ```
 
+# Apache 2 Proxy Reverso Container
+```
+# para nao perder tempo vamos usar uma imagem pronta configurada e testada
+sudo mkdir /opt/apacheconf
+sudo chmod 777 /opt/apacheconf
+docker run -itd --name apache --restart always -h apache --net webserver --ip 172.18.0.2 -p 80:80 -v /opt/apache:/etc/apache2/sites-enabled jmferrer/apache2-reverse-proxy
+#teste acessando no browser http://localhost
+```
+
+# App A
+```
+docker run -itd --name appa --restart always --net webserver --ip 172.18.0.3 midianet/appa
+#se vc subiu sua imagem pode trocar midianet/appa por [seu login dockerhub]/appa
+```
+
+# App B
+```
+docker run -itd --name appb --restart always --net webserver --ip 172.18.0.4 midianet/appb
+#se vc subiu sua imagem pode trocar midianet/appb por [seu login dockerhub]/appb
+```
+
+# Configurando proxy reverso
+```
+cd /opt/apacheconf
+# crie o arquivo appa.conf com o conteudo abaixo
+```
+### appa.conf
+```
+<VirtualHost *:80>
+    ProxyPreserveHost On
+    
+    ServerName appa.local 
+
+    ServerAdmin midianet@gmail.com
+    ErrorLog ${APACHE_LOG_DIR}/appa-error.log
+    CustomLog ${APACHE_LOG_DIR}/appa--access.log combined
+    
+    ProxyPass / http://172.18.0.3:5000/
+    ProxyPassReverse / http://172.18.0.3:5000/
+
+</VirtualHost>
+```
+```
+# crie o arquivo appb.conf
+```
+
+### appa.conf
+```
+<VirtualHost *:80>
+    ProxyPreserveHost On
+    
+    ServerName appb.local 
+
+    ServerAdmin midianet@gmail.com
+    ErrorLog ${APACHE_LOG_DIR}/appb-error.log
+    CustomLog ${APACHE_LOG_DIR}/appb--access.log combined
+    
+    ProxyPass / http://172.18.0.4:5000/
+    ProxyPassReverse / http://172.18.0.4:5000/
+
+</VirtualHost>
+```
+## Reload Apache2 service
+
+```
+docker exec apache service apache2 reload
+#teste acessando no browser http://appa.local
+#teste acessando no browser http://appb.local
+```
+
