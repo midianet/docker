@@ -238,7 +238,7 @@ docker push [seu login dockerhub]/appb
 ```
 # para nao perder tempo vamos usar uma imagem pronta configurada e testada
 sudo mkdir /opt/apacheconf
-sudo chmod 777 /opt/apacheconf
+sudo chmod ao+r -R /opt/apacheconf
 docker run -itd --name apache --restart always -h apache --net webserver --ip 172.18.0.2 -p 80:80 -v /opt/apache:/etc/apache2/sites-enabled jmferrer/apache2-reverse-proxy
 #teste acessando no browser http://localhost
 ```
