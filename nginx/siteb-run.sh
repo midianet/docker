@@ -1,1 +1,0 @@
-docker run -itd --name siteb -h siteb --net apps -p 3002:3000 siteb-local:1.0.0
