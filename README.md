@@ -37,27 +37,58 @@ docker network ls
 docker network inspect webserver
 ```
 
-## Criando uma imagem AppB
+## Editando o Hosts
+```
+sudo vim /etc/hosts
+#crie no final do arquivo as entradas como abaixo.
+127.0.0.1       sitea.local
+127.0.0.1       siteb.local
+```
+## Criando a configuração do NGinx
+```
+cd ~
+mkdir docker
+cd docker
+mkdir nginx
+cd nginx
+mkdir www
+mkdir conf.d
+cd conf.d
+#crie o arquivo default.conf com o conteúdo da pasta nginx/conf.d/default.conf
+#crie o arquivo sitea.conf com o conteúdo da pasta nginx/conf.d/sitea.conf
+#crie o arquivo siteb.conf com o conteúdo da pasta nginx/conf.d/siteb.conf
+cd ../www
+mkdir default
+mkdir siteA
+mkdir siteB
+cd default
+#crie o arquivo index.html com o conteúdo da pasta www/default/index.html
+cd ../siteA
+#crie o arquivo index.html com o conteúdo da pasta www/siteA/index.html
+cd ../siteB
+#crie o arquivo index.html com o conteúdo da pasta www/siteB/index.html
+```
+
+## Criando o container do NGinx
+```
+docker run -d --name nginx -h nginx --net webserver -p 80:80 -v ~/docker/nginx/conf.d:/etc/nginx/conf.d  -v ~/docker/nginx/www:/var/www nginx
+```
+- acesse http://localhost
+- acesse http://sitea.local
+- acesse http://siteb.local
+
+
+## Criando a imagem siteA
 
 ```
-mkdir appa
-cd appa
-
-# Vamos criar uma página apenas para demonstração
-# crie o arquivo index.html com o conteudo na pasta appa/index.html acima
-```
-### Dockerfile
-
-```
-#crie o arquivo Dockerfile como o arquivo acima Dockerfile
-```
-
-### Build da imagem 
-
-```
-docker build -t [seu login dockerhub]/appa
-#exemplo midianet/appa para latest
-#exemplo midianet/appa:1.0.0 para tag
+cd ..
+mkdir siteA
+cd siteA
+#crie o arquivo index.html com o conteudo da pasta siteA/index.html
+#crie o arquivo Dockerfile com o conteudo da pasta siteA/Dockerfile
+docker build -t [seu login dockerhub]/sitea
+#exemplo midianet/sitea para latest
+#exemplo midianet/sitea:1.0.0 para tag
 ```
 
 ### Verificando a imagem
@@ -73,33 +104,22 @@ docker login (usuario/senha)
 
 ### Push da imagem
 ```
-docker push [seu login dockerhub]/appa
-# exemplo dockerpush midianet/appa
+docker push [seu login dockerhub]/sitea
+# exemplo dockerpush midianet/sitea
 ```
 
-## Criando uma imagem AppB
+## Criando uma imagem siteB
 
 
 ```
 cd ..
-mkdir appb
-cd appb
-
-# Vamos criar uma página apenas para demonstração
-# crie o arquivo index.html com o conteudo na pasta appb/index.html acima
-```
-
-### Dockerfile
-```
-#crie o arquivo Dockerfile como abaixo
-```
-
-### Build da imagem 
-
-```
-docker build -t [seu login dockerhub]/appb
-#exemplo midianet/appb para latest
-#exemplo midianet/appb:1.0.0 para tag
+mkdir siteB
+cd siteB
+#crie o arquivo index.html com o conteudo da pasta siteB/index.html
+#crie o arquivo Dockerfile com o conteudo da pasta siteB/Dockerfile
+docker build -t [seu login dockerhub]/siteb
+#exemplo midianet/siteb para latest
+#exemplo midianet/siteb:1.0.0 para tag
 ```
 
 ### Verificando a imagem
@@ -115,56 +135,36 @@ docker login (usuario/senha)
 
 ### Push da imagem
 ```
-docker push [seu login dockerhub]/appb
-# exemplo dockerpush midianet/appb
+docker push [seu login dockerhub]/siteb
+# exemplo dockerpush midianet/siteb
 ```
 
-# Apache 2 Proxy Reverso Container
+# Site A
 ```
-# para nao perder tempo vamos usar uma imagem pronta configurada e testada
-sudo mkdir /opt/apacheconf
-sudo chmod ao+r -R /opt/apacheconf
-docker run -itd --name apache --restart always -h apache --net webserver --ip 172.18.0.2 -p 80:80 -v /opt/apache:/etc/apache2/sites-enabled jmferrer/apache2-reverse-proxy
-#teste acessando no browser http://localhost
+docker run -d --name sitea -h sitea --net webserver midianet/sitea:1.0.0
+#se vc subiu sua imagem pode trocar midianet/sitea por [seu login dockerhub]/sitea
 ```
 
-# App A
+# Site B
 ```
-docker run -itd --name appa --restart always --net webserver --ip 172.18.0.3 midianet/appa
-#se vc subiu sua imagem pode trocar midianet/appa por [seu login dockerhub]/appa
-```
-
-# App B
-```
-docker run -itd --name appb --restart always --net webserver --ip 172.18.0.4 midianet/appb
-#se vc subiu sua imagem pode trocar midianet/appb por [seu login dockerhub]/appb
+docker run -d --name siteb -h siteb --net webserver -p 3002:3000 siteb:1.0.0
+#se vc subiu sua imagem pode trocar midianet/siteb por [seu login dockerhub]/siteb
 ```
 
 # Configurando proxy reverso
 ```
-cd /opt/apacheconf
-# crie o arquivo appa.conf com o conteudo do arquivo appa.conf
-# crie o arquivo appb.conf com o conteudo do arquivo appb.conf
+# altere o arquivo na pasta ~/docker/nginx/conf.d/sitea.conf
+# comente a linha 10 e descomente a linha 9
+# altere o arquivo na pasta ~/docker/nginx/conf.d/siteb.conf
+# comente a linha 10 e descomente a linha 9
 ```
-## Reload Apache2 service
+## Reload do Nginx service
 
 ```
-docker exec apache service apache2 reload
+docker exec nginx nginx -s reload
 ```
-## Configurar dns local
-```
-#como nao temos um dns e esse exemplo e apenas para aprendizado
-#edite o arquivo /etc/hosts como as linhas abaixo
-```
-```
-127.0.0.1 appa.local
-127.0.0.1 appb.local
-```
-
-```
-#teste acessando no browser http://appa.local
-#teste acessando no browser http://appb.local
-```
+- acesse http://sitea.local
+- acesse http://siteb.local
 
 #Fim
 
