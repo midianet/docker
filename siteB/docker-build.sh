@@ -1,1 +1,0 @@
-docker build -t siteb-local:1.0.0 .
