@@ -1,1 +1,0 @@
-docker run -itd --name nginx -h nginx --net apps -p 80:80 -v ~/workspace/docker/nginx/conf.d:/etc/nginx/conf.d  -v ~/workspace/docker/nginx/www:/var/www nginx
