@@ -1,1 +1,0 @@
-docker run -itd --name sitea -h sitea --net apps -p 3001:3000 sitea-local:1.0.0
