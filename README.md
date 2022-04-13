@@ -1,5 +1,5 @@
 # docker
-# Tutorial Docker Network + apache proxy reverso
+# Tutorial Docker Network + nginx proxy reverso
 
 ## Instalações Ubuntu 18/20 Mint
 
