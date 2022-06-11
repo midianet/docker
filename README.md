@@ -211,6 +211,50 @@ Existem formas de Especificar o uso de GPU, mas como depende do hardware iremos 
  --gpus device= - Especifica qual GPU será habilitada para aquele container<br> 
  --gpus 'all,capabilities=utility Especifica qual recurso esta disponível na GPU para o container
 
+### Executando comandos em um container
+Para isso o container deverá estar em execução, esse comando será executado em uma nova sessão
+```
+docker run -itd --name executor --rm ubuntu
+docker exec executor ls /etc
+docker exec -it executor bash
+exit
+#morreu?
+```
+
+### Anexando a entrada e saída padrão de um container
+ Isso permite visualizar sua saída em andamento ou controlá-la interativamente,<br>
+ como se os comandos estivessem sendo executados diretamente em seu terminal.
+```
+docker run -itd --name nginx -p 80:80 --rm nginx
+docker attach nginx
+#ctrl c
+```
+
+### Iniciando um container parado
+Se o container não foi criado com --rm ao finalizar o comando ele fica em estado parado 
+```
+docker run -it --name paradao nginx
+#ctl c
+docker ps
+docker start nginx
+```
+
+### Parando um container em execução
+Se o container foi criado com --rm ele será eliminado<br>
+no contrário ele apenas ira ficar em estado parado e seus
+arquivos internos será mantido
+```
+docker exec paradao touch /root/meuarquivo 
+docker stop paradao
+docker start paradao
+docker exec paradao ls /root
+docker run -itd --name doril --rm ubuntu
+docker exec doril touch /root/meuarquivo
+dokcer stop doril
+```
+
+
+
 
 
 
