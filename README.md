@@ -18,8 +18,77 @@ sudo reboot now
 ```
 ##### Testando instalção
 ```
-docker ps
+docker -v
 ```
+
+# Docker Images
+
+### Baixando imagens
+```
+docker pull hello-world
+```
+
+### Listando imagens
+```
+docker images
+#Ajuda do comando
+docker images -h 
+```
+  -a, --all             Mostra todas as imagens (por padrão esconde as imagens intermediarias)<br>
+      --digests         Mostra o hash<br>
+  -f, --filter filter   Filtra a saída do comando<br>
+      --format string   Formata a saída do comando<br>
+      --no-trunc        Não trunca a saída do comando<br>
+  -q, --quiet           Mostra apenas os IDs das imagens<br>
+  
+
+### Criando uma imagen
+#### Instalando o VIM
+```
+ sudo apt install vim
+```
+#### Criando um Dockerfile 
+```
+ cd 
+ pwd
+ mkdir nginx
+ cd nginx
+ vim Dockerfile
+```
+Crie o arquivo Dockerfile  com o conteúdo do arquivo [Dockerfile](https://github.com/midianet/docker/blob/main/Dockerfile) 
+
+### Construindo uma Imagem
+```
+docker build -t [nome] #(latest)
+```
+
+### Tageando uma imagem
+```
+docker tag [imagem] [novo nome]:[tag]
+```
+
+### Removendo uma imagem
+```
+docker rmi [imagem]
+```
+
+### Subindo uma imagem no Dockerhub(registy)
+Se não tem crie um usuário no http://dockerhub.com<br>
+Ative seu usuário no seu email
+```
+ docker login
+ docker push [imagem]
+```
+Conferir Diferença entre tamanhos de imagem (novas camadas)<br>
+
+### Criando uma imagem a partir de um container
+```
+docker commit [nome] [imagem]:[tag]
+```
+ 
+## Containers
+
+
 
 # Docker network
 
