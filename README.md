@@ -23,23 +23,24 @@ sudo reboot now
 docker -v
 ```
 
-### Insumo
-Para executar os próximos exercícios iremos criar alguns containers como insumo (vamos explicar esses os comandos posteriormente)
+## Docker Images
+Para mostrar os próximos exemplos iremos executar o comando abaixo como insumo (vamos explicar esse comando posteriormente)
 ```
-docker run hello-world
-docker run -itd ubuntu
+docker run -itd alpine
 ```
 
-## Docker Images
 ### Baixando imagens
+
 ```
 docker pull hello-world
+
 ```
 
 ### Listando imagens
+
 ```
 docker images
-docker images -h 
+docker images -a 
 ```
   -a, --all             Mostra todas as imagens (por padrão esconde as imagens intermediarias)<br>
       --digests         Mostra o hash<br>
@@ -47,7 +48,6 @@ docker images -h
       --format string   Formata a saída do comando<br>
       --no-trunc        Não trunca a saída do comando<br>
   -q, --quiet           Mostra apenas os IDs das imagens<br>
-  
 
 ### Criando uma imagen (Dockerfile) 
 ```
