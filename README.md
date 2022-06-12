@@ -30,7 +30,6 @@ docker run -itd alpine
 ```
 
 ### Baixando imagens
-
 ```
 docker pull hello-world
 
@@ -116,7 +115,7 @@ docker run -it ubuntu
 ```
 Para sair de um container sem matar o processo(bash no caso acima) use Ctrl p q (não consegui rodar no wsl terminal)
 ```
-docker run -itd ubuntu
+docker run -itd ubuntu #pode juntar como -itd , a ordem não importa
 ```
 
 ### Parâmetro que define o Nome do container 
@@ -163,6 +162,11 @@ docker run -it --rm -u daemon ubuntu
 ### Parâmetro que define o path inicial do container
 ```
 docker run -it --rm -w /tmp ubuntu
+```
+
+### Enviando argumentos para um container
+```
+docker run -it --rm -e ANIMAL=lobo -e CACADOR=joao -e ARMA=espingarda ubuntu 
 ```
 
 ### Parâmetro que define o recurso de Memória do container
@@ -253,6 +257,40 @@ docker exec doril touch /root/meuarquivo
 dokcer stop doril
 ```
 
+### Congelando um container em execução
+```
+docker run -itd --name cassete ubuntu
+docker pause cassete
+docker ps
+```
+
+### Descongelando um container em execução
+```
+docker unpause cassete
+docker ps
+```
+
+### Reiniciando um container
+Reinicia um container mas não perde seu estado..
+```
+docker restart cassete
+```
+
+### Removendo um container
+#Remove um container<br>]
+Se o container esta em execução pode ser forçar com o parametro -f<br>
+ Ex: docker rm -f [nome container]
+```
+docker rm cassete
+@rodou?
+docker rm -f cassete
+```
+
+### Inspecionando um container
+```
+docker run -itd --name interessante ubuntu
+docker inspect interessante
+```
 
 
 
