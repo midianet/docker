@@ -237,9 +237,9 @@ docker run --rm -m 10m --memory-swap 15m ubuntu
 --cpu-shares - Aumentar ou reduzir o peso do contêiner e fornecer acesso a uma proporção maior ou menor dos ciclos de CPU<br>
    por padrão e 1024
 ```
+docker run --rm --cpus="0.5" ubuntu
 docker run --rm --cpus="0.5" --cpu-period="100000" --cpu-quota=50000 ubuntu 
 #rodou?
-docker run --rm --cpus="0.5" ubuntu
 docker run --rm  --cpu-period="100000" --cpu-quota=50000 --cpuset-cpus=1,3 --cpu-shares=1000  ubuntu
 ```
 
