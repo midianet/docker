@@ -54,10 +54,15 @@ Crie o arquivo Dockerfile com o conteúdo do arquivo [Dockerfile](https://github
 
 ### Construindo uma Imagem
 ```
-docker build -t local-nginx-ubuntu .
+docker build -t local-teste:1.0.0 .
 ```
+Editar a imagem concatenando os comandos RUN
 Conferir Diferença entre tamanhos de imagem (novas camadas)<br>
-concatenando o comando RUN do container
+```
+docker build -t local-teste:1.0.1 .
+docker images
+```
+criar uma imagem ubuntu com o nginx
 ```
 docker build -t local-nginx-ubuntu .
 ```
@@ -78,6 +83,8 @@ docker tag [usuario dockerhub]/nginx-alpine
 ```
 docker rmi local-nginx-ubuntu
 docker rmi local-nginx-alpine
+docker rmi local-teste:1.0.0
+docker rmi local-teste:1.0.1
 ```
 
 ### Subindo uma imagem no Dockerhub(registy)
