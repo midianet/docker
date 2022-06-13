@@ -166,7 +166,7 @@ docker run -d --name nginx-8080 -p 8080:80 nginx
    on-failure:10, #inicia sempre, mas se falhar (10) vezes não tenta mais<br>
    unless-stoped #inicia se o estado anterior não for parado
 ```
-docker run -itd --name automatico -p 9090:80 --restart always nginx
+docker run -itd --name automatico --restart always ubuntu
 docker ps
 sudo service docker restart
 docker ps
@@ -252,7 +252,7 @@ Existem formas de Especificar o uso de GPU, mas como depende do hardware iremos 
 ### Executando comandos em um container
 Para isso o container deverá estar em execução, esse comando será executado em uma nova sessão
 ```
-docker run -itd --name exemplo nginx
+docker run -itd --name exemplo -p 9090:80 nginx
 docker exec exemplo ls /etc
 docker exec -it exemplo bash
 exit  #comando linux 
@@ -308,6 +308,11 @@ Reinicia um container mas não perde seu estado..
 docker restart exemplo
 ```
 
+### Inspecionando um container
+```
+docker inspect exemplo
+```
+
 ### Removendo um container
 #Remove um container<br>]
 Se o container esta em execução pode ser forçar com o parametro -f<br>
@@ -316,16 +321,14 @@ Se o container esta em execução pode ser forçar com o parametro -f<br>
 docker ps
 docker rm men-limitado
 #rodou?
+docker rm -f exemplo
 docker rm -f men-limitado
+docker rm -f automatico]
+docker rm nginx-8080
+docker rm nginx-80
+docker rm meu-ubuntu
+#desafio apague todas as imagens (paradas) que restaram e vc identifica que foram criadas para o treinamento
 ```
-
-### Inspecionando um container
-```
-docker inspect exemplo
-```
-
-
-
 
 
 
