@@ -24,10 +24,6 @@ docker -v
 ```
 
 ## Docker Images
-Para mostrar os próximos exemplos iremos executar o comando abaixo como insumo (vamos explicar esse comando posteriormente)
-```
-docker run -itd alpine
-```
 
 ### Baixando imagens
 ```
@@ -36,10 +32,8 @@ docker pull hello-world
 ```
 
 ### Listando imagens
-
 ```
 docker images
-docker images -a 
 ```
   -a, --all             Mostra todas as imagens (por padrão esconde as imagens intermediarias)<br>
       --digests         Mostra o hash<br>
@@ -60,35 +54,52 @@ Crie o arquivo Dockerfile com o conteúdo do arquivo [Dockerfile](https://github
 
 ### Construindo uma Imagem
 ```
-docker build -t [nome] #(latest)
+docker build -t local-nginx-ubuntu .
+```
+Conferir Diferença entre tamanhos de imagem (novas camadas)<br>
+concatenando o comando RUN do container
+```
+docker build -t local-nginx-ubuntu .
+```
+criar outra imagem usando de base um alpine
+```
+docker build -t local-nginx-alpine .
+docker images
 ```
 
 ### Tageando uma imagem
+Se não tem crie um usuário no http://dockerhub.com<br>
+Ative seu usuário no seu email
 ```
-docker tag [imagem] [novo nome]:[tag]
+docker tag [usuario dockerhub]/nginx-alpine
 ```
 
 ### Removendo uma imagem
 ```
-docker rmi [imagem]
+docker rmi local-nginx-ubuntu
+docker rmi local-nginx-alpine
 ```
 
 ### Subindo uma imagem no Dockerhub(registy)
-Se não tem crie um usuário no http://dockerhub.com<br>
-Ative seu usuário no seu email
+
 ```
  docker login
- docker push [imagem]
+ docker push [usuario dockerhub]/nginx-alpine
 ```
-Conferir Diferença entre tamanhos de imagem (novas camadas)<br>
 
-### Criando uma imagem a partir de um container
+### Criando uma imagem de container
+Possibilita criar uma imagem usando um container
 ```
-docker commit [nome] [imagem]:[tag]
+docker commit [nome] [nome imagem]:[tag]
 ```
  
 ## Containers
+Para mostrar os próximos exemplos iremos executar o comando abaixo como insumo (vamos explicar esse comando posteriormente)<br>
 Uum container so se mantem em execução enquanto o processo que o iniciou esteja vivo
+```
+docker run -itd alpine
+docker run hello-world
+```
 
 ### Visualizando containers em execução
 ```
@@ -99,7 +110,7 @@ docker ps
 docker ps -a
 ```
 Observe:<br>
-Temos um container em execução da imagem ubuntu
+Temos um container em execução da imagem alpine
 Temos um container parado (exit) da imagem hello-world
 
 ### Criando um Container
@@ -121,19 +132,24 @@ docker run -itd ubuntu #pode juntar como -itd , a ordem não importa
 ### Parâmetro que define o Nome do container 
 ```
 docker run -itd --name meu-ubuntu ubuntu
+docker run --name meu-ubuntu ubuntu
+#rodou?
 ```
 
 ### Parâmetro que define o Nome Interno do container(host)
 ```
 docker run -it -h meuserver ubuntu
+hostname  #comando linux
+exit      #comando linux
 ```
 
 ### Parâmetro que define o bind de porta
 Porta que será exposta pelo host)<br>
 -p [HOSTPORT]:[CONTAINERPORT]
 ```
-docker run -d --name nginx-isolado nginx
 docker run -d --name nginx-80 -p 80:80 nginx
+docker run -it -p 80:80 nginx
+#rodo?
 docker run -d --name nginx-8080 -p 8080:80 nginx
 ```
 
@@ -143,7 +159,7 @@ docker run -d --name nginx-8080 -p 8080:80 nginx
    on-failure:10, #inicia sempre, mas se falhar (10) vezes não tenta mais<br>
    unless-stoped #inicia se o estado anterior não for parado
 ```
-docker run -itd --name automatico --restart always ubuntu
+docker run -itd --name automatico -p 9090:80 --restart always nginx
 docker ps
 sudo service docker restart
 docker ps
@@ -152,11 +168,13 @@ docker ps
 ### Parâmetro que define se o container irá ser Destruido Automaticamente após parado
 ```
 docker run -it --rm --name temporario ubuntu
+exit #comando linux
 ```
 
 ### Parâmetro que define o Usuário que ira por padrão executar o container
 ```
 docker run -it --rm -u daemon ubuntu
+exit #comando linux
 ```
 
 ### Parâmetro que define o path inicial do container
@@ -166,7 +184,14 @@ docker run -it --rm -w /tmp ubuntu
 
 ### Enviando argumentos para um container
 ```
-docker run -it --rm -e ANIMAL=lobo -e CACADOR=joao -e ARMA=espingarda ubuntu 
+docker run -it --rm -e ANIMAL=lobo -e CACADOR=joao -e ARMA=espingarda ubuntu
+env  #comando linux
+exit #comando linux
+```
+### Observando os parâmetros de recursos de um container
+```
+docker stats automatico
+ctrl c
 ```
 
 ### Parâmetro que define o recurso de Memória do container
@@ -174,8 +199,8 @@ docker run -it --rm -e ANIMAL=lobo -e CACADOR=joao -e ARMA=espingarda ubuntu
 ```
 docker run -m 200k ubuntu  
 #rodou?
-docker run -itd --name menlimitado --rm -m 10m ubuntu
-docker stats menlimitado
+docker run -itd --name men-limitado --rm -m 10m ubuntu
+docker stats men-limitado
 #ctrl C
 ```
 ### Parâmetro que define o recurso de Memória Swap do container
@@ -183,7 +208,8 @@ docker stats menlimitado
 ```
 docker run --rm --memory-swap 5m ubuntu
 #rodou?
-docker run --rm -m 10m --memory-swap 5m ubuntu #?
+docker run --rm -m 10m --memory-swap 5m ubuntu
+#rodou?
 docker run --rm -m 10m --memory-swap 15m ubuntu
 ```
 
@@ -218,10 +244,11 @@ Existem formas de Especificar o uso de GPU, mas como depende do hardware iremos 
 ### Executando comandos em um container
 Para isso o container deverá estar em execução, esse comando será executado em uma nova sessão
 ```
-docker run -itd --name executor --rm ubuntu
-docker exec executor ls /etc
-docker exec -it executor bash
-exit
+docker run -itd --name exemplo nginx
+docker exec exemplo ls /etc
+docker exec -it exemplo bash
+exit  #comando linux 
+docker ps
 #morreu?
 ```
 
@@ -229,18 +256,16 @@ exit
  Isso permite visualizar sua saída em andamento ou controlá-la interativamente,<br>
  como se os comandos estivessem sendo executados diretamente em seu terminal.
 ```
-docker run -itd --name nginx -p 80:80 --rm nginx
-docker attach nginx
-#ctrl c
+docker attach exemplo
+ctrl c
+docker ps
 ```
 
 ### Iniciando um container parado
 Se o container não foi criado com --rm ao finalizar o comando ele fica em estado parado 
 ```
-docker run -it --name paradao nginx
-#ctl c
+docker start exemplo
 docker ps
-docker start nginx
 ```
 
 ### Parando um container em execução
@@ -248,32 +273,31 @@ Se o container foi criado com --rm ele será eliminado<br>
 no contrário ele apenas ira ficar em estado parado e seus
 arquivos internos será mantido
 ```
-docker exec paradao touch /root/meuarquivo 
-docker stop paradao
-docker start paradao
-docker exec paradao ls /root
+docker exec exemplo touch /root/meuarquivo 
+docker stop exemplo
+docker start exemplo
+docker exec exemplo ls /root
 docker run -itd --name doril --rm ubuntu
 docker exec doril touch /root/meuarquivo
-dokcer stop doril
+docker stop doril
 ```
 
 ### Congelando um container em execução
 ```
-docker run -itd --name cassete ubuntu
-docker pause cassete
+docker pause exemplo
 docker ps
 ```
 
 ### Descongelando um container em execução
 ```
-docker unpause cassete
+docker unpause exemplo
 docker ps
 ```
 
 ### Reiniciando um container
 Reinicia um container mas não perde seu estado..
 ```
-docker restart cassete
+docker restart exemplo
 ```
 
 ### Removendo um container
@@ -281,15 +305,15 @@ docker restart cassete
 Se o container esta em execução pode ser forçar com o parametro -f<br>
  Ex: docker rm -f [nome container]
 ```
-docker rm cassete
-@rodou?
-docker rm -f cassete
+docker ps
+docker rm men-limitado
+#rodou?
+docker rm -f men-limitado
 ```
 
 ### Inspecionando um container
 ```
-docker run -itd --name interessante ubuntu
-docker inspect interessante
+docker inspect exemplo
 ```
 
 
