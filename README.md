@@ -187,6 +187,7 @@ exit #comando linux
 ### Parâmetro que define o path inicial do container
 ```
 docker run -it --rm -w /tmp ubuntu
+exit #comando linux
 ```
 
 ### Enviando argumentos para um container
