@@ -135,7 +135,7 @@ docker run -d --name app-comercial -h app-comercial --net apps midianet/app-come
 
 # Criando o container do App de Estoque
 ```
-docker run -d --name app-estoque -h app-estoque --net apps app-estoque:1.0.0
+docker run -d --name app-estoque -h app-estoque --net apps midianet/app-estoque:1.0.0
 ```
 
 # Configurando proxy reverso no NGINX
