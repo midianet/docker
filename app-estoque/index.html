@@ -1,24 +1,94 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <title>Welcome to Site B</title>
-    <style>
-        html {
-            color-scheme: light dark;
-        }
-
-        body {
-            width: 35em;
-            margin: 0 auto;
-            font-family: Tahoma, Verdana, Arial, sans-serif;
-        }
-    </style>
+<title>Sistema de Estoque</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+</style>
 </head>
-
-<body>
-    <h1>SITE B</h1>
-    <p>Site a lista as nossos serviços ativos</p>
+<body class="w3-light-grey">
+<div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
+  <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i>  Menu</button>
+  <span class="w3-bar-item w3-right">Sistema de Estoque</span>
+</div>
+<nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+  <div class="w3-container w3-row">
+    <div class="w3-col s4">
+      <img src="https://www.w3schools.com/w3images/avatar2.png" class="w3-circle w3-margin-right" style="width:46px">
+    </div>
+    <div class="w3-col s8 w3-bar">
+      <span>Bem vindo, <strong>Marcos</strong></span><br>
+      <a href="#" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i></a>
+      <a href="#" class="w3-bar-item w3-button"><i class="fa fa-user"></i></a>
+      <a href="#" class="w3-bar-item w3-button"><i class="fa fa-cog"></i></a>
+    </div>
+  </div>
+  <hr>
+  <div class="w3-bar-block">
+    <a href="#" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-cube"></i>  Produtos</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-inbox"></i>  Entradas</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-anchor"></i>  Perdas</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bank fa-fw"></i>  Distriuição</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-search-minus"></i>  Inventário</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-print"></i>  Relatórios</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-cog fa-fw"></i>  Configurações</a><br><br>
+  </div>
+</nav>
+<div class="w3-main" style="margin-left:300px;margin-top:43px;">
+  <div class="w3-container">
+    <h5>Estoques</h5>
+    <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
+      <tr>
+        <td>CD Principal</td>
+        <td>65%</td>
+      </tr>
+      <tr>
+        <td>CD Nordeste</td>
+        <td>15.7%</td>
+      </tr>
+      <tr>
+        <td>CD Sul</td>
+        <td>5.6%</td>
+      </tr>
+      <tr>
+        <td>CD Centro Oeste</td>
+        <td>2.1%</td>
+      </tr>
+      <tr>
+        <td>CD Norte</td>
+        <td>1.9%</td>
+      </tr>
+      <tr>
+        <td>CD Leste</td>
+        <td>1.5%</td>
+      </tr>
+    </table><br>
+  </div>
+  <hr>
+  <div class="w3-container w3-dark-grey w3-padding-32">
+    <div class="w3-row">
+      <div class="w3-container w3-third">
+        <h5 class="w3-bottombar w3-border-green">Transporte</h5>
+        <p>Terrestre</p>
+        <p>Aréreo</p>
+      </div>
+      <div class="w3-container w3-third">
+        <h5 class="w3-bottombar w3-border-red">Atrasos</h5>
+        <p>Postais</p>
+        <p>Remessa</p>
+      </div>
+      <div class="w3-container w3-third">
+        <h5 class="w3-bottombar w3-border-orange">Devoluções</h5>
+        <p>Denificado</p>
+        <p>Produto Errado</p>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
-
 </html>
