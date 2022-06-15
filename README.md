@@ -50,7 +50,7 @@ Crie o arquivo intranet.conf com o conteúdo do arquivo [intranet.conf](https://
 ```
 vim intranet.conf
 ```
-Crie o arquivo portal.conf com o conteúdo do arquivo [portal.conf](https://github.com/midianet/docker/blob/main/nginx/conf.d/siteb.conf) 
+Crie o arquivo portal.conf com o conteúdo do arquivo [portal.conf](https://github.com/midianet/docker/blob/main/nginx/conf.d/portal.conf) 
 ```
 vim portal.conf
 ```
