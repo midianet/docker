@@ -392,19 +392,36 @@ docker network inspect apps
 ```
 
 ## Editando o Hosts
+No windows fica em C:\Windows\system32\drivers\etc
+abra o powershell como administrador e execute o comando na pasta
+```
+notepad hosts
+#crie o final do arquivo
+127.0.0.1 sitea.local
+127.0.0.1 siteb.local
+```
+
+No Linux
 ```
 sudo vim /etc/hosts
 #crie no final do arquivo as entradas como abaixo.
-127.0.0.1       sitea.local
-127.0.0.1       siteb.local
+127.0.0.1 sitea.local
+127.0.0.1 siteb.local
+```
+Teste a entrada executando o comando:
+```
+ping sitea.local
+ping siteb.local
 ```
 
 ## Criando a configuração do NGinx
+[Dockerfile](https://github.com/midianet/docker/blob/main/nginx/Dockerfile) 
+na pasta [seuusuario]/docker/nginx execute:
 ```
 mkdir www
 mkdir conf.d
 cd conf.d
-#crie o arquivo default.conf com o conteúdo da pasta nginx/conf.d/default.conf
+#crie o arquivo default.conf com o conteúdo do arquivo [default.conf](https://github.com/midianet/docker/blob/main/nginx/conf.d/default.conf) 
 #crie o arquivo sitea.conf com o conteúdo da pasta nginx/conf.d/sitea.conf
 #crie o arquivo siteb.conf com o conteúdo da pasta nginx/conf.d/siteb.conf
 cd ../www
