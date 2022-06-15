@@ -75,7 +75,7 @@ vim index.html
 
 ## Criando o container do NGinx
 ```
-docker run -d --name nginx -h nginx --net app -p 80:80 -v ~/docker/nginx/conf.d:/etc/nginx/conf.d  -v ~/docker/nginx/www:/var/www nginx
+docker run -d --name nginx -h nginx --net apps -p 80:80 -v ~/docker/nginx/conf.d:/etc/nginx/conf.d  -v ~/docker/nginx/www:/var/www nginx
 ```
 - acesse http://localhost
 - acesse http://sitea.local
