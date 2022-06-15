@@ -42,7 +42,6 @@ docker images
 >>  --format string Formata a saída do comando<br>
 >>  --no-trunc Não trunca a saída do comando<br>
 
-
 ### Criando uma imagen (Dockerfile) 
 ```
  cd 
@@ -51,7 +50,7 @@ docker images
  cd nginx
  vim Dockerfile
 ```
-Crie o arquivo Dockerfile com o conteúdo do arquivo [Dockerfile](https://github.com/midianet/docker/blob/main/Dockerfile) 
+Crie o arquivo Dockerfile com o conteúdo do arquivo [Dockerfile](https://github.com/midianet/docker/blob/main/nginx/Dockerfile) 
 
 ### Construindo uma Imagem
 ```
@@ -89,16 +88,19 @@ docker rmi local-teste:1.0.1
 ```
 
 ### Subindo uma imagem no Dockerhub(registy)
-
 ```
  docker login
  docker push [usuario dockerhub]/nginx-alpine
 ```
-
 ### Criando uma imagem de container
 Possibilita criar uma imagem usando um container
 ```
 docker commit [nome] [nome imagem]:[tag]
+```
+
+### Removendo todas as imagens não usadas
+```
+docker image prune -a
 ```
  
 ## Containers
@@ -113,6 +115,7 @@ docker run hello-world
 ```
 docker ps
 ```
+
 ### Visualizando todos os containers (execução ou parados)
 ```
 docker ps -a
@@ -313,6 +316,7 @@ docker restart exemplo
 ```
 docker inspect exemplo
 ```
+
 ### Lendo os logs de um container
 ```
 docker logs exemplo
@@ -321,8 +325,8 @@ docker logs exemplo
 ### Linkando containers
 Todas as vezes que criamos um container ele e atribuido a uma rede e recebe um ip, mas como esse ip e dinâmico nem sempre ao reiniciar o docker ele pegará o mesmo ip, então para isso usamos o nome do container para conectar um container ao outro
 ```
-docker run -itd --rm --name postrgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 postgres
-docker run -it --rm --link postgres jbergknoff/postgresql-client postgresql://postgres:postgres@postgres:5432/postgres
+docker run -itd --rm --name meu-postgres -e POSTGRES_PASSWORD=password -p 5432:5432 postgres
+docker run -it --rm --link meu-postgres jbergknoff/postgresql-client postgresql://meu-postgres:postgres@password:5432/postgres
 SELECT * FROM pg_catalog.pg_tables WHERE schemaname != 'pg_catalog';
 \q
 ```
@@ -335,13 +339,7 @@ Se o container esta em execução pode ser forçar com o parametro -f<br>
 docker ps
 docker rm men-limitado
 #rodou?
-docker rm -f exemplo
-docker rm -f men-limitado
-docker rm -f automatico]
-docker rm nginx-8080
-docker rm nginx-80
-docker rm meu-ubuntu
-#desafio apague todas as imagens (paradas) que restaram e vc identifica que foram criadas para o treinamento
+docker rm -f $(docker ps -aq)
 ```
 
 ## Volumes
@@ -353,24 +351,26 @@ docker rm meu-ubuntu
 > rm [nome] - remove um volume
 > -v [nome volume]:[path container] - aplica o volume no path do container
 >> ex: -v [volume]:\opt\app
-> -v [path host]:[path container] [opcoes] 
+> -v [caminho no host]:[caminho no container] [opcoes] 
 > um volume pode ser usado simultaneamente por vários containers
 > as opções não funcionan no windows, no linux e similar ao comando mount com as opções separadas por virgula
 >> exemplo "tmpfs" (Dispositivo de armazenamento HD, disquete, cd, dvd...): 
->>> docker volume create --driver local --opt type=tmpfs --opt device=tmpfs --opt o=size=100m,uid=1000 [NOME]
+>>> docker volume create --driver local --opt type=tmpfs --opt device=tmpfs --opt o=size=100m,uid=1000 [nome]
 >> exemplo "nfs" (Network File System sistema de arquivo distribuido(rede)) 
->>> docker volume create --driver local --opt type=nfs --opt o=addr=[IP],rw --opt device=:[PATH] [NOME]
+>>> docker volume create --driver local --opt type=nfs --opt o=addr=[ip],rw --opt device=:[caminho] [nome]
 >> outros tipos de drivers btrfs, zfs, hfs, fat32, ntfs
 > o comando -v pode ser usando juntamente com a criação do container (docker run) em combinação com os diversos parâmetros
 
 # Docker network
-	O que o docker chama de rede, na verdade é uma abstração criada para facilitar o gerenciamento da comunicação de dados entre containers e os nós externos ao ambiente docker.<br>
+O que o docker chama de rede, na verdade é uma abstração criada para facilitar o gerenciamento da comunicação de dados entre containers e os nós externos ao ambiente docker.<br>
 <br>
 O docker é disponibilizado com três redes por padrão. bridge, host e none Essas redes oferecem configurações específicas para gerenciamento do tráfego de dados.
+
 ## Bridge
 Cada container iniciado no docker é associado a uma rede específica. Essa é a rede padrão para qualquer container, a menos que associemos, explicitamente, outra rede a ele. A rede confere ao container uma interface que faz bridge com a interface docker0 do docker host. Essa interface recebe, automaticamente, o próximo endereço disponível na rede IP 172.17.0.0/16.<br>
 <br>
 Todos os containers que estão nessa rede poderão se comunicar via protocolo TCP/IP. Se você souber qual endereço IP do container deseja conectar, é possível enviar tráfego para ele. Afinal, estão todos na mesma rede IP (172.17.0.0/16).
+
 ## None
 Essa rede tem como objetivo isolar o container para comunicações externas. A rede não recebe qualquer interface para comunicação externa. A única interface de rede IP será a localhost.<br>
 <br>
@@ -380,13 +380,11 @@ Essa rede, normalmente, é utilizada para containers que manipulam apenas arquiv
 Essa rede tem como objetivo entregar para o container todas as interfaces existentes no docker host. De certa forma, pode agilizar a entrega dos pacotes, uma vez que não há bridge no caminho das mensagens. Mas normalmente esse overhead é mínimo e o uso de uma brigde pode ser importante para segurança e gerencia do seu tráfego.
 
 ## Listando redes
-
 ```
 docker network ls
 ```
 
 ## Criando uma rede
-
 ```
 docker network create --subnet=172.18.0.0/16 apps
 docker network ls
@@ -400,6 +398,7 @@ sudo vim /etc/hosts
 127.0.0.1       sitea.local
 127.0.0.1       siteb.local
 ```
+
 ## Criando a configuração do NGinx
 ```
 mkdir www
@@ -428,9 +427,7 @@ docker run -d --name nginx -h nginx --net app -p 80:80 -v ~/docker/nginx/conf.d:
 - acesse http://sitea.local
 - acesse http://siteb.local
 
-
 ## Criando a imagem siteA
-
 ```
 cd ..
 mkdir siteA
