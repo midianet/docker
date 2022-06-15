@@ -1,5 +1,3 @@
-
-  
 FROM  node
 
 RUN apt update && npm install -g serve && mkdir /opt/site
