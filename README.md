@@ -13,31 +13,32 @@ docker network inspect apps
 ```
 
 ## Editando o Hosts
-No windows fica em C:\Windows\system32\drivers\etc
-abra o powershell como administrador e execute o comando na pasta
+crie o conteudo abaixo no fim do arquivo hosts especifico do seu SO<br>
+127.0.0.1 portal.local<br>
+127.0.0.1 intranet.local<br>
+127.0.0.1 comercial.local<br>
+127.0.0.1 financeiro.local<br>
+
+### Windows
+Abra o powershell como administrador e execute o comando na pasta
 ```
+cd C:\Windows\system32\drivers\etc
 notepad hosts
-#crie o final do arquivo
-127.0.0.1 sitea.local
-127.0.0.1 siteb.local
 ```
 
-No Linux
+### Linux
 ```
 sudo vim /etc/hosts
-#crie no final do arquivo as entradas como abaixo.
-127.0.0.1 sitea.local
-127.0.0.1 siteb.local
 ```
+### Testando
 Teste a entrada executando o comando:
 ```
 ping sitea.local
 ping siteb.local
 ```
 
-## Criando a configuração do NGinx
-[Dockerfile](https://github.com/midianet/docker/blob/main/nginx/Dockerfile) 
-na pasta [seuusuario]/docker/nginx execute:
+## Criando as configurações do NGinx
+Crie o arquivo default.conf com o conteúdo do arquivo [default.conf](https://github.com/midianet/docker/blob/main/nginx/conf.d/default.conf) 
 ```
 cd ~/docker/nginx
 mkdir www
@@ -45,34 +46,32 @@ mkdir conf.d
 cd conf.d
 vim default.conf
 ```
-Crie o arquivo default.conf com o conteúdo do arquivo [default.conf](https://github.com/midianet/docker/blob/main/nginx/conf.d/default.conf) 
+Crie o arquivo intranet.conf com o conteúdo do arquivo [intranet.conf](https://github.com/midianet/docker/blob/main/nginx/conf.d/intranet.conf) 
 ```
-vim sitea.conf
+vim intranet.conf
 ```
-Crie o arquivo sitea.conf com o conteúdo do arquivo [sitea.conf](https://github.com/midianet/docker/blob/main/nginx/conf.d/sitea.conf) 
+Crie o arquivo portal.conf com o conteúdo do arquivo [portal.conf](https://github.com/midianet/docker/blob/main/nginx/conf.d/siteb.conf) 
 ```
-vim siteb.conf
+vim portal.conf
 ```
-Crie o arquivo sitea.conf com o conteúdo do arquivo [siteb.conf](https://github.com/midianet/docker/blob/main/nginx/conf.d/siteb.conf) 
+## Criando os sites
+### Portal
+Crie o arquivo index.html com o conteúdo do arquivo [index.html](https://github.com/midianet/docker/blob/main/nginx/www/portal/index.html)
 ```
 cd ~/docker/nginx/www
-mkdir home
-mkdir siteA
-mkdir siteB
-cd home
+mkdir portal
+cd portal
 vim index.html
 ```
-Crie o arquivo index.html com o conteúdo do arquivo [index.html](https://github.com/midianet/docker/blob/main/nginx/www/home/index.html)
+
+### Intranet
+Crie o arquivo index.html com o conteúdo do arquivo [index.html](https://github.com/midianet/docker/blob/main/nginx/www/intranet/index.html)
 ```
-cd ~/docker/nginx/siteA
+cd ~/docker/nginx/www
+mkdir intranet
+cd intranet
 vim index.html
 ```
-Crie o arquivo index.html com o conteúdo do arquivo [index.html](https://github.com/midianet/docker/blob/main/nginx/www/siteA/index.html)
-```
-cd ~/docker/nginx/siteB
-vim index.html
-```
-Crie o arquivo index.html com o conteúdo do arquivo [index.html](https://github.com/midianet/docker/blob/main/nginx/www/siteB/index.html)
 
 ## Criando o container do NGinx
 ```
