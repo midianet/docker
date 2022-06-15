@@ -418,23 +418,40 @@ ping siteb.local
 [Dockerfile](https://github.com/midianet/docker/blob/main/nginx/Dockerfile) 
 na pasta [seuusuario]/docker/nginx execute:
 ```
+cd ~/docker/nginx
 mkdir www
 mkdir conf.d
 cd conf.d
-#crie o arquivo default.conf com o conteúdo do arquivo [default.conf](https://github.com/midianet/docker/blob/main/nginx/conf.d/default.conf) 
-#crie o arquivo sitea.conf com o conteúdo da pasta nginx/conf.d/sitea.conf
-#crie o arquivo siteb.conf com o conteúdo da pasta nginx/conf.d/siteb.conf
-cd ../www
+vim default.conf
+```
+Crie o arquivo default.conf com o conteúdo do arquivo [default.conf](https://github.com/midianet/docker/blob/main/nginx/conf.d/default.conf) 
+```
+vim sitea.conf
+```
+Crie o arquivo sitea.conf com o conteúdo do arquivo [sitea.conf](https://github.com/midianet/docker/blob/main/nginx/conf.d/sitea.conf) 
+```
+vim siteb.conf
+```
+Crie o arquivo sitea.conf com o conteúdo do arquivo [siteb.conf](https://github.com/midianet/docker/blob/main/nginx/conf.d/siteb.conf) 
+```
+cd ~/docker/nginx/www
 mkdir default
 mkdir siteA
 mkdir siteB
 cd default
-#crie o arquivo index.html com o conteúdo da pasta www/default/index.html
-cd ../siteA
-#crie o arquivo index.html com o conteúdo da pasta www/siteA/index.html
-cd ../siteB
-#crie o arquivo index.html com o conteúdo da pasta www/siteB/index.html
+vim index.html
 ```
+Crie o arquivo index.html com o conteúdo do arquivo [index.html](https://github.com/midianet/docker/blob/main/nginx/www/default/index.html)
+```
+cd ~/docker/nginx/siteA
+vim index.html
+```
+Crie o arquivo index.html com o conteúdo do arquivo [index.html](https://github.com/midianet/docker/blob/main/nginx/www/siteA/index.html)
+```
+cd ~/docker/nginx/siteB
+vim index.html
+```
+Crie o arquivo index.html com o conteúdo do arquivo [index.html](https://github.com/midianet/docker/blob/main/nginx/www/siteB/index.html)
 
 ## Criando o container do NGinx
 ```
@@ -446,63 +463,50 @@ docker run -d --name nginx -h nginx --net app -p 80:80 -v ~/docker/nginx/conf.d:
 
 ## Criando a imagem siteA
 ```
-cd ..
+cd ~/docker
 mkdir siteA
 cd siteA
-#crie o arquivo index.html com o conteudo da pasta siteA/index.html
-#crie o arquivo Dockerfile com o conteudo da pasta siteA/Dockerfile
+vim index.html
+```
+Crie o arquivo index.html com o conteudo do arquivo [index.html](https://github.com/midianet/docker/blob/main/siteA/index.html)
+```
+vim Dockerfile
+```
+Crie o arquivo Dockerfile com o conteudo do arquivo [Dockerfile](https://github.com/midianet/docker/blob/main/siteA/Dockerfile)
+
+### Build da imagem
+```
 docker build -t [seu login dockerhub]/sitea
 #exemplo midianet/sitea para latest
 #exemplo midianet/sitea:1.0.0 para tag
 ```
 
-### Verificando a imagem
-```
-docker images
-```
-
-### Login registry docker hub
-```
-docker login (usuario/senha) 
-# so precisa fazer isso uma vez
-```
-
-### Push da imagem
-```
-docker push [seu login dockerhub]/sitea
-# exemplo dockerpush midianet/sitea
-```
-
 ## Criando uma imagem siteB
 ```
-cd ..
+cd ~/docker
 mkdir siteB
 cd siteB
-#crie o arquivo index.html com o conteudo da pasta siteB/index.html
-#crie o arquivo Dockerfile com o conteudo da pasta siteB/Dockerfile
+vim index.html
+```
+Crie o arquivo index.html com o conteudo do arquivo [index.html](https://github.com/midianet/docker/blob/main/siteB/index.html)
+```
+vim Dockerfile
+```
+Crie o arquivo Dockerfile com o conteudo do arquivo [Dockerfile](https://github.com/midianet/docker/blob/main/siteB/Dockerfile)
 docker build -t [seu login dockerhub]/siteb
 #exemplo midianet/siteb para latest
 #exemplo midianet/siteb:1.0.0 para tag
 ```
 
-### Verificando a imagem
+### Verificando as novas imagens
 ```
 docker images
 ```
 
 ### Login registry docker hub
 ```
-docker login (usuario/senha) 
-# so precisa fazer isso uma vez
-```
 
-### Push da imagem
-```
-docker push [seu login dockerhub]/siteb
-# exemplo dockerpush midianet/siteb
-```
-
-# Site A
+# Criando o container Site A
 ```
 docker run -d --name sitea -h sitea --net app midianet/sitea:1.0.0
 #se vc subiu sua imagem pode trocar midianet/sitea por [seu login dockerhub]/sitea
@@ -510,7 +514,7 @@ docker run -d --name sitea -h sitea --net app midianet/sitea:1.0.0
 
 # Site B
 ```
-docker run -d --name siteb -h siteb --net webserver -p 3002:3000 siteb:1.0.0
+docker run -d --name siteb -h siteb --net app siteb:1.0.0
 #se vc subiu sua imagem pode trocar midianet/siteb por [seu login dockerhub]/siteb
 ```
 
@@ -529,5 +533,3 @@ docker exec nginx nginx -s reload
 - acesse http://siteb.local
 
 #Fim
-
-
