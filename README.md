@@ -81,41 +81,46 @@ docker run -d --name nginx -h nginx --net apps -p 80:80 -v ~/docker/nginx/conf.d
 - acesse http://sitea.local
 - acesse http://siteb.local
 
-## Criando a imagem siteA
+## App Comercial
+### Criando a App Comercial 
+Crie o arquivo index.html com o conteudo do arquivo [index.html](https://github.com/midianet/docker/blob/main/app-comercial/index.html)
 ```
 cd ~/docker
-mkdir siteA
-cd siteA
+mkdir app-comercial
+cd app-comercial
 vim index.html
 ```
-Crie o arquivo index.html com o conteudo do arquivo [index.html](https://github.com/midianet/docker/blob/main/siteA/index.html)
+
+### Criando o Dockerfile do App Comercial
+Crie o arquivo Dockerfile com o conteudo do arquivo [Dockerfile](https://github.com/midianet/docker/blob/main/app-comercial/Dockerfile)
 ```
 vim Dockerfile
 ```
-Crie o arquivo Dockerfile com o conteudo do arquivo [Dockerfile](https://github.com/midianet/docker/blob/main/siteA/Dockerfile)
 
-### Build da imagem
+### Build da imagem do App Comercial
 ```
-docker build -t [seu login dockerhub]/sitea
-#exemplo midianet/sitea para latest
-#exemplo midianet/sitea:1.0.0 para tag
+docker build -t [seu login dockerhub]/app-comercial:1.0.0
+#exemplo midianet/app-comercial:1.0.0
 ```
 
-## Criando uma imagem siteB
+## App Estoque
+### Criando a App de Estoque 
+Crie o arquivo index.html com o conteudo do arquivo [index.html](https://github.com/midianet/docker/blob/main/app-estoque/index.html)
 ```
 cd ~/docker
-mkdir siteB
-cd siteB
+mkdir app-estoque
+cd app-estoque
 vim index.html
 ```
-Crie o arquivo index.html com o conteudo do arquivo [index.html](https://github.com/midianet/docker/blob/main/siteB/index.html)
+### Criando o Dockerfile do App de Estoque
+Crie o arquivo Dockerfile com o conteudo do arquivo [Dockerfile](https://github.com/midianet/docker/blob/main/app-estoque/Dockerfile)
 ```
 vim Dockerfile
 ```
-Crie o arquivo Dockerfile com o conteudo do arquivo [Dockerfile](https://github.com/midianet/docker/blob/main/siteB/Dockerfile)
-docker build -t [seu login dockerhub]/siteb
-#exemplo midianet/siteb para latest
-#exemplo midianet/siteb:1.0.0 para tag
+### Build da imagem do App de Estoque
+```
+docker build -t [seu login dockerhub]/app-estoque:1.0.0
+#exemplo midianet/app-estoque:1.0.0
 ```
 
 ### Verificando as novas imagens
@@ -123,33 +128,30 @@ docker build -t [seu login dockerhub]/siteb
 docker images
 ```
 
-### Login registry docker hub
+# Criando o container do App Comercial
+```
+docker run -d --name app-comercial -h app-comercial --net app midianet/app-comercial:1.0.0
 ```
 
-# Criando o container Site A
+# Criando o container do App de Estoque
 ```
-docker run -d --name sitea -h sitea --net app midianet/sitea:1.0.0
-#se vc subiu sua imagem pode trocar midianet/sitea por [seu login dockerhub]/sitea
-```
-
-# Site B
-```
-docker run -d --name siteb -h siteb --net app siteb:1.0.0
-#se vc subiu sua imagem pode trocar midianet/siteb por [seu login dockerhub]/siteb
+docker run -d --name app-estoque -h app-estoque --net app app-estoque:1.0.0
 ```
 
-# Configurando proxy reverso
+# Configurando proxy reverso no NGINX
+Crie o arquivo comercial.conf com o conteúdo do arquivo [comercial.conf](https://github.com/midianet/docker/blob/main/nginx/conf.d/comercial.conf)<br>
+depois crie o arquivo estoque.conf com o conteúdo do arquivo [estoque.conf](https://github.com/midianet/docker/blob/main/nginx/conf.d/estoque.conf)
 ```
-# altere o arquivo na pasta ~/docker/nginx/conf.d/sitea.conf
-# comente a linha 10 e descomente a linha 9
-# altere o arquivo na pasta ~/docker/nginx/conf.d/siteb.conf
-# comente a linha 10 e descomente a linha 9
+cd ~/docker/nginx/conf.d
+vim comercial.conf
+vim estoque.conf
 ```
+
 ## Reload do Nginx service
 ```
 docker exec nginx nginx -s reload
 ```
-- acesse http://sitea.local
-- acesse http://siteb.local
+- acesse http://comercial.local
+- acesse http://estoque.local
 
 #Fim
