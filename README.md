@@ -35,12 +35,13 @@ docker pull hello-world
 ```
 docker images
 ```
-  -a, --all             Mostra todas as imagens (por padrão esconde as imagens intermediarias)<br>
-      --digests         Mostra o hash<br>
-  -f, --filter filter   Filtra a saída do comando<br>
-      --format string   Formata a saída do comando<br>
-      --no-trunc        Não trunca a saída do comando<br>
-  -q, --quiet           Mostra apenas os IDs das imagens<br>
+> -a,  --all Mostra todas as imagens (por padrão esconde as imagens intermediarias)<br>
+> --digests Mostra o hash<br>
+> -q, --quiet Mostra apenas os IDs das imagens<br>
+> -f, --filter filter Filtra a saída do comando<br>
+>>  --format string Formata a saída do comando<br>
+>>  --no-trunc Não trunca a saída do comando<br>
+
 
 ### Criando uma imagen (Dockerfile) 
 ```
@@ -161,10 +162,10 @@ docker run -d --name nginx-8080 -p 8080:80 nginx
 ```
 
 ### Parâmetro quefine a forma de Inicialização Automática do container
- --restart [OPTION]<br>
-   always #inicia junto com o docker<br>
-   on-failure:10, #inicia sempre, mas se falhar (10) vezes não tenta mais<br>
-   unless-stoped #inicia se o estado anterior não for parado
+> --restart [opcao]<br>
+>>   always inicia junto com o docker<br>
+>>   on-failure:10, inicia sempre, mas se falhar (10) vezes não tenta mais<br>
+>>   unless-stoped inicia se o estado anterior não for parado
 ```
 docker run -itd --name automatico --restart always ubuntu
 docker ps
@@ -203,7 +204,7 @@ ctrl c
 ```
 
 ### Parâmetro que define o recurso de Memória do container
--m [SIZE] ou --memory , (b,k,m,g)
+-m [tamanho] ou --memory , (b,k,m,g)
 ```
 docker run -m 200k ubuntu  
 #rodou?
@@ -225,17 +226,17 @@ docker run --rm -m 10m --memory-swap 15m ubuntu
 #### Definindo o número fracionário de CPU
 --cups - Especifica quanto dos recursos de CPU disponíveis um contêiner pode usar
 --cpu-period - Especifica o período do agendador CFS da CPU, que é usado junto com --cpu-quota.<br>
-   O padrão é 100.000 microssegundos (100 milissegundos).<br>
-   A maioria dos usuários não altera isso do padrão. Para a maioria dos casos de uso, --cpus é uma alternativa mais conveniente.
+> O padrão é 100.000 microssegundos (100 milissegundos).<br>
+> A maioria dos usuários não altera isso do padrão. Para a maioria dos casos de uso, --cpus é uma alternativa mais conveniente.
 --cpu-quota - Especifica uma cota de CPU CFS no contêiner.<br> 
-   Para a maioria dos casos de uso, --cpus é uma alternativa mais conveniente.<br>
+> Para a maioria dos casos de uso, --cpus é uma alternativa mais conveniente.<br>
 --cpuset-cpus - Especifica as CPUs ou núcleos que o contêiner pode usar.<br>
-   lista separada por virgula ou - (hifen) para intervalo<br>
-   Onde a primeira CPU é 0. ex:<br> 
-      0-3(primeira, segunda, terceira CPU)<br> 
-      1,3(segunda e quarta CPU)<br>
+> lista separada por virgula ou - (hifen) para intervalo<br>
+> Onde a primeira CPU é 0. ex:<br> 
+>>  0-3(primeira, segunda, terceira CPU)<br> 
+>>  1,3(segunda e quarta CPU)<br>
 --cpu-shares - Aumentar ou reduzir o peso do contêiner e fornecer acesso a uma proporção maior ou menor dos ciclos de CPU<br>
-   por padrão e 1024
+> por padrão e 1024
 ```
 docker run --rm --cpus="0.5" ubuntu
 docker run --rm --cpus="0.5" --cpu-period="100000" --cpu-quota=50000 ubuntu 
@@ -312,11 +313,24 @@ docker restart exemplo
 ```
 docker inspect exemplo
 ```
+### Lendo os logs de um container
+```
+docker logs exemplo
+```
+
+### Linkando containers
+Todas as vezes que criamos um container ele e atribuido a uma rede e recebe um ip, mas como esse ip e dinâmico nem sempre ao reiniciar o docker ele pegará o mesmo ip, então para isso usamos o nome do container para conectar um container ao outro
+```
+docker run -itd --rm --name postrgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 postgres
+docker run -it --rm --link postgres jbergknoff/postgresql-client postgresql://postgres:postgres@postgres:5432/postgres
+SELECT * FROM pg_catalog.pg_tables WHERE schemaname != 'pg_catalog';
+\q
+```
 
 ### Removendo um container
 #Remove um container<br>]
 Se o container esta em execução pode ser forçar com o parametro -f<br>
- Ex: docker rm -f [nome container]
+> Ex: docker rm -f [nome container]
 ```
 docker ps
 docker rm men-limitado
@@ -330,9 +344,40 @@ docker rm meu-ubuntu
 #desafio apague todas as imagens (paradas) que restaram e vc identifica que foram criadas para o treinamento
 ```
 
-
+## Volumes
+*docker volume*<br>
+> create [nome] - cria um novo volume
+> inspect [nome] - mostra detalhes do volume
+> ls - lista os volumes existentes      
+> prune - apaga os volumes que não estão sendo usados
+> rm [nome] - remove um volume
+> -v [nome volume]:[path container] - aplica o volume no path do container
+>> ex: -v [volume]:\opt\app
+> -v [path host]:[path container] [opcoes] 
+> um volume pode ser usado simultaneamente por vários containers
+> as opções não funcionan no windows, no linux e similar ao comando mount com as opções separadas por virgula
+>> exemplo "tmpfs" (Dispositivo de armazenamento HD, disquete, cd, dvd...): 
+>>> docker volume create --driver local --opt type=tmpfs --opt device=tmpfs --opt o=size=100m,uid=1000 [NOME]
+>> exemplo "nfs" (Network File System sistema de arquivo distribuido(rede)) 
+>>> docker volume create --driver local --opt type=nfs --opt o=addr=[IP],rw --opt device=:[PATH] [NOME]
+>> outros tipos de drivers btrfs, zfs, hfs, fat32, ntfs
+> o comando -v pode ser usando juntamente com a criação do container (docker run) em combinação com os diversos parâmetros
 
 # Docker network
+	O que o docker chama de rede, na verdade é uma abstração criada para facilitar o gerenciamento da comunicação de dados entre containers e os nós externos ao ambiente docker.<br>
+<br>
+O docker é disponibilizado com três redes por padrão. bridge, host e none Essas redes oferecem configurações específicas para gerenciamento do tráfego de dados.
+## Bridge
+Cada container iniciado no docker é associado a uma rede específica. Essa é a rede padrão para qualquer container, a menos que associemos, explicitamente, outra rede a ele. A rede confere ao container uma interface que faz bridge com a interface docker0 do docker host. Essa interface recebe, automaticamente, o próximo endereço disponível na rede IP 172.17.0.0/16.<br>
+<br>
+Todos os containers que estão nessa rede poderão se comunicar via protocolo TCP/IP. Se você souber qual endereço IP do container deseja conectar, é possível enviar tráfego para ele. Afinal, estão todos na mesma rede IP (172.17.0.0/16).
+## None
+Essa rede tem como objetivo isolar o container para comunicações externas. A rede não recebe qualquer interface para comunicação externa. A única interface de rede IP será a localhost.<br>
+<br>
+Essa rede, normalmente, é utilizada para containers que manipulam apenas arquivos, sem necessidade de enviá-los via rede para outro local. (Ex.: container de backup utiliza os volumes de container de banco de dados para realizar o dump e, será usado no processo de retenção dos dados).
+
+## Host
+Essa rede tem como objetivo entregar para o container todas as interfaces existentes no docker host. De certa forma, pode agilizar a entrega dos pacotes, uma vez que não há bridge no caminho das mensagens. Mas normalmente esse overhead é mínimo e o uso de uma brigde pode ser importante para segurança e gerencia do seu tráfego.
 
 ## Listando redes
 
@@ -343,9 +388,9 @@ docker network ls
 ## Criando uma rede
 
 ```
-docker network create --subnet=172.18.0.0/16 webserver
+docker network create --subnet=172.18.0.0/16 apps
 docker network ls
-docker network inspect webserver
+docker network inspect apps
 ```
 
 ## Editando o Hosts
@@ -357,11 +402,6 @@ sudo vim /etc/hosts
 ```
 ## Criando a configuração do NGinx
 ```
-cd ~
-mkdir docker
-cd docker
-mkdir nginx
-cd nginx
 mkdir www
 mkdir conf.d
 cd conf.d
@@ -382,7 +422,7 @@ cd ../siteB
 
 ## Criando o container do NGinx
 ```
-docker run -d --name nginx -h nginx --net webserver -p 80:80 -v ~/docker/nginx/conf.d:/etc/nginx/conf.d  -v ~/docker/nginx/www:/var/www nginx
+docker run -d --name nginx -h nginx --net app -p 80:80 -v ~/docker/nginx/conf.d:/etc/nginx/conf.d  -v ~/docker/nginx/www:/var/www nginx
 ```
 - acesse http://localhost
 - acesse http://sitea.local
@@ -420,8 +460,6 @@ docker push [seu login dockerhub]/sitea
 ```
 
 ## Criando uma imagem siteB
-
-
 ```
 cd ..
 mkdir siteB
@@ -452,7 +490,7 @@ docker push [seu login dockerhub]/siteb
 
 # Site A
 ```
-docker run -d --name sitea -h sitea --net webserver midianet/sitea:1.0.0
+docker run -d --name sitea -h sitea --net app midianet/sitea:1.0.0
 #se vc subiu sua imagem pode trocar midianet/sitea por [seu login dockerhub]/sitea
 ```
 
@@ -470,7 +508,6 @@ docker run -d --name siteb -h siteb --net webserver -p 3002:3000 siteb:1.0.0
 # comente a linha 10 e descomente a linha 9
 ```
 ## Reload do Nginx service
-
 ```
 docker exec nginx nginx -s reload
 ```
