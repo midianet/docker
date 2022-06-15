@@ -435,13 +435,13 @@ vim siteb.conf
 Crie o arquivo sitea.conf com o conteúdo do arquivo [siteb.conf](https://github.com/midianet/docker/blob/main/nginx/conf.d/siteb.conf) 
 ```
 cd ~/docker/nginx/www
-mkdir default
+mkdir home
 mkdir siteA
 mkdir siteB
-cd default
+cd home
 vim index.html
 ```
-Crie o arquivo index.html com o conteúdo do arquivo [index.html](https://github.com/midianet/docker/blob/main/nginx/www/default/index.html)
+Crie o arquivo index.html com o conteúdo do arquivo [index.html](https://github.com/midianet/docker/blob/main/nginx/www/home/index.html)
 ```
 cd ~/docker/nginx/siteA
 vim index.html
