@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Intranet</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+  body {font-family: "Lato", sans-serif}
+  .mySlides {display: none}
+</style>
+</head>
+<body>
+<div class="w3-top">
+  <div class="w3-bar w3-black w3-card">
+    <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    <a href="#" class="w3-bar-item w3-button w3-padding-large">INÍCIO</a>
+    <a href="#band" class="w3-bar-item w3-button w3-padding-large w3-hide-small">EMPRESA</a>
+    <a href="#tour" class="w3-bar-item w3-button w3-padding-large w3-hide-small">VISITA</a>
+    <a href="#contact" class="w3-bar-item w3-button w3-padding-large w3-hide-small">CONTATO</a>
+  </div>
+</div>
+<div id="navDemo" class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:46px">
+  <a href="#band" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">INÍCIO</a>
+  <a href="#tour" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">EMPRESA</a>
+  <a href="#contact" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">CONTATO</a>
+</div>
+<div class="w3-content" style="max-width:2000px;margin-top:46px">
+  <div class="w3-display-container w3-center">
+    <img src="https://www.w3schools.com/w3images/architect.jpg" style="width:100%">
+  </div>
+  <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:800px" id="band">
+    <h2 class="w3-wide">A EMPRESA</h2>
+    <p class="w3-opacity"><i>Somos Top</i></p>
+    <p class="w3-justify">Queremos e podemos e vamos ser sempre os melhores.</p>
+    <p class="w3-justify">Nossa missão e dominar o mundo dos negócios e influenciar pessoas.</p>
+    <p class="w3-justify">Sabemos o que queremos e o que podemos.</p>
+    <div class="w3-row w3-padding-32">
+      <div class="w3-third">
+        <p>Pink</p>
+        <img src="https://3.bp.blogspot.com/-SkVPho0iuxM/W0azLUtrTCI/AAAAAAAAV0A/nyaJ2swR1qUcwxu0bxx7DsZir7ry0P2RgCLcBGAs/s1600/pink%2Be%2Bcerebro%2B3.jpg" class="w3-round w3-margin-bottom" alt="Random Name" style="width:60%">
+      </div>
+      <div class="w3-third">
+        <p>Cérebro</p>
+        <img src="https://cf.shopee.com.br/file/e97f40c91f1565e9bb8479aff692dc4b" class="w3-round w3-margin-bottom" alt="Random Name" style="width:60%">
+      </div>
+    </div>
+  </div>
+  <div class="w3-black" id="tour">
+    <div class="w3-container w3-content w3-padding-64" style="max-width:800px">
+      <h2 class="w3-wide w3-center">VISITAS</h2>
+      <p class="w3-opacity w3-center"><i>Lugares onde iremos visitar para Palestra!</i></p><br>
+      <ul class="w3-ul w3-border w3-white w3-text-grey">
+        <li class="w3-padding">Março <span class="w3-tag w3-red w3-margin-left">Bilhetes Esgotados</span></li>
+        <li class="w3-padding">Abril <span class="w3-tag w3-red w3-margin-left">Bilhetes Esgotados</span></li>
+        <li class="w3-padding">Maio <span class="w3-tag w3-red w3-margin-left">Bilhetes Esgotados</span></li>
+        <li class="w3-padding">junho <span class="w3-tag w3-red w3-margin-left">Bilhetes Esgotados</span></li>
+        <li class="w3-padding">Julho <span class="w3-badge w3-right w3-margin-right">5</span></li>
+        <li class="w3-padding">Agosto <span class="w3-badge w3-right w3-margin-right">1</span></li>
+        <li class="w3-padding">Setembro <span class="w3-badge w3-right w3-margin-right">3</span></li>
+        <li class="w3-padding">Outubro <span class="w3-badge w3-right w3-margin-right">7</span></li>
+        <li class="w3-padding">Novembro <span class="w3-badge w3-right w3-margin-right">2</span></li>
+        <li class="w3-padding">Dezembro <span class="w3-badge w3-right w3-margin-right">9</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="w3-container w3-content w3-padding-64" style="max-width:800px" id="contact">
+    <h2 class="w3-wide w3-center">CONTATO</h2>
+    <p class="w3-opacity w3-center"><i>Deixe seu recado!</i></p>
+    <div class="w3-row w3-padding-32">
+      <div class="w3-col m6 w3-large w3-margin-bottom">
+        <i class="fa fa-map-marker" style="width:30px"></i> Goiânia, GO<br>
+        <i class="fa fa-phone" style="width:30px"></i> Telefone: 62 9999-9999<br>
+        <i class="fa fa-envelope" style="width:30px"> </i> Email: ping@cerebro.com<br>
+      </div>
+      <div class="w3-col m6">
+        <form action="/action_page.php" target="_blank">
+          <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
+            <div class="w3-half">
+              <input class="w3-input w3-border" type="text" placeholder="Nome" required name="Name">
+            </div>
+            <div class="w3-half">
+              <input class="w3-input w3-border" type="text" placeholder="Email" required name="Email">
+            </div>
+          </div>
+          <input class="w3-input w3-border" type="text" placeholder="Mensagem" required name="Message">
+          <button class="w3-button w3-black w3-section w3-right">Enviar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<footer class="w3-container w3-padding-64 w3-center w3-opacity w3-light-grey w3-xlarge">
+  <i class="fa fa-facebook-official w3-hover-opacity"></i>
+  <i class="fa fa-instagram w3-hover-opacity"></i>
+  <i class="fa fa-snapchat w3-hover-opacity"></i>
+  <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+  <i class="fa fa-twitter w3-hover-opacity"></i>
+  <i class="fa fa-linkedin w3-hover-opacity"></i>
+  <p class="w3-medium">Powered by Midianet </p>
+</footer>
+<script>
+    function myFunction() {
+        var x = document.getElementById("navDemo");
+        if (x.className.indexOf("w3-show") == -1) {
+            x.className += " w3-show";
+        } else { 
+            x.className = x.className.replace(" w3-show", "");
+        }
+    }
+</script>
+</body>
+</html>
