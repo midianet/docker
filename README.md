@@ -130,12 +130,12 @@ docker images
 
 # Criando o container do App Comercial
 ```
-docker run -d --name app-comercial -h app-comercial --net app midianet/app-comercial:1.0.0
+docker run -d --name app-comercial -h app-comercial --net apps midianet/app-comercial:1.0.0
 ```
 
 # Criando o container do App de Estoque
 ```
-docker run -d --name app-estoque -h app-estoque --net app app-estoque:1.0.0
+docker run -d --name app-estoque -h app-estoque --net apps app-estoque:1.0.0
 ```
 
 # Configurando proxy reverso no NGINX
