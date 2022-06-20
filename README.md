@@ -396,7 +396,7 @@ crie o conteudo abaixo no fim do arquivo hosts especifico do seu SO<br>
 127.0.0.1 portal.local<br>
 127.0.0.1 intranet.local<br>
 127.0.0.1 comercial.local<br>
-127.0.0.1 financeiro.local<br>
+127.0.0.1 estoque.local<br>
 
 ### Windows
 Abra o powershell como administrador e execute o comando na pasta
@@ -412,8 +412,10 @@ sudo vim /etc/hosts
 ### Testando
 Teste a entrada executando o comando:
 ```
-ping sitea.local
-ping siteb.local
+ping portal.local
+ping intranet.local
+ping comercial.local
+ping estoque.local
 ```
 
 ## Criando as configurações do NGinx
@@ -457,8 +459,8 @@ vim index.html
 docker run -d --name nginx -h nginx --net apps -p 80:80 -v ~/docker/nginx/conf.d:/etc/nginx/conf.d  -v ~/docker/nginx/www:/var/www nginx
 ```
 - acesse http://localhost
-- acesse http://sitea.local
-- acesse http://siteb.local
+- acesse http://portal.local
+- acesse http://intranet.local
 
 ## App Comercial
 ### Criando a App Comercial 
@@ -478,8 +480,8 @@ vim Dockerfile
 
 ### Build da imagem do App Comercial
 ```
-docker build -t [seu login dockerhub]/app-comercial:1.0.0
-#exemplo midianet/app-comercial:1.0.0
+docker build -t [seu login dockerhub]/app-comercial:1.0.0 .
+#exemplo midianet/app-comercial:1.0.0 .
 ```
 
 ## App Estoque
@@ -498,8 +500,8 @@ vim Dockerfile
 ```
 ### Build da imagem do App de Estoque
 ```
-docker build -t [seu login dockerhub]/app-estoque:1.0.0
-#exemplo midianet/app-estoque:1.0.0
+docker build -t [seu login dockerhub]/app-estoque:1.0.0 .
+#exemplo midianet/app-estoque:1.0.0 .
 ```
 
 ### Verificando as novas imagens
