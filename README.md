@@ -551,6 +551,7 @@ cat dpkg.log
 docker run -d --name portainer -h portainer -v /var/run/docker.sock:/var/run/docker.sock --net apps  portainer/portainer-ce:2.9.3
 docker exec nginx nginx -s reload
 ````
+Acesse http://portainer.local/
 
 # Docker Compose
 
