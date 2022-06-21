@@ -535,4 +535,31 @@ docker exec nginx nginx -s reload
 - acesse http://comercial.local
 - acesse http://estoque.local
 
-#Fim
+# Docker Compose
+
+> [Documentação Docker Compose](https://docs.docker.com/compose/)
+
+## Instalando o docker-compose no Ubuntu
+```
+apt-get install docker-compose
+```
+
+Veja a versão do docker-compose instalado:
+```
+docker-compose -v
+```
+
+Veja o help:
+```
+docker-compose -h
+```
+
+## Criando arquivo docker-compose
+
+O docker-compose é escrito no formato yml. Para facilitar um entendimento, veja como seria o mesmo arquivo em formato json:  
+[VER JSON](https://github.com/midianet/docker/blob/main/docker-compose.json)  
+[VER YML](https://github.com/midianet/docker/blob/main/docker-compose.yml)
+
+Crie o arquivo docker-compose.yml com o conteúdo do arquivo [docker-compose.yml](https://github.com/midianet/docker/blob/main/docker-compose.yml)  
+
+> Como escolher sua versão do docker-compose: https://docs.docker.com/compose/compose-file/compose-versioning/  
