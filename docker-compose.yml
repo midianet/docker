@@ -1,0 +1,34 @@
+version: "3.3"
+services:
+#docker run -d --name nginx -h nginx --net apps -p 80:80 -v ~/docker/nginx/conf.d:/etc/nginx/conf.d  -v ~/docker/nginx/www:/var/www nginx
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    hostname: nginx
+    networks:
+      - apps
+    ports:
+      - 80:80
+    volumes:
+      - ~/docker/nginx/conf.d:/etc/nginx/conf.d
+      - ~/docker/nginx/www:/var/www nginx
+
+#docker run -d --name app-comercial -h app-comercial --net apps midianet/
+  app-comercial:
+    image: joaozonta/app-comercial:1.0.0
+    container_name: app-comercial
+    hostname: app-comercial
+    networks:
+      - apps
+
+#docker run -d --name app-estoque -h app-estoque --net apps midianet/
+  app-estoque:
+    image: joaozonta/app-estoque:1.0.0
+    container_name: app-estoque
+    hostname: app-estoque
+    networks:
+      - apps
+
+networks:
+  apps:
+    external: true

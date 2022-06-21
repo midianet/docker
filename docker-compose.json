@@ -1,0 +1,33 @@
+{
+    "version": "3.3",
+    "services": {
+        "nginx": {
+            "build": "./nginx",
+            "container_name": "nginx",
+            "hostname": "nginx",
+            "networks": ["apps"],
+            "ports": ["80:80"],
+            "volumes": [
+               "~/docker/nginx/conf.d:/etc/nginx/conf.d,",
+               "~/docker/nginx/www:/var/www nginx"
+            ]
+        },
+        "app-comercial": {
+            "image": "joaozonta/app-comercial:1.0.0",
+            "container_name": "app-comercial",
+            "hostname": "app-comercial",
+            "networks": ["apps"]
+        },
+        "app-estoque": {
+            "image": "joaozonta/app-estoque:1.0.0",
+            "container_name": "app-estoque",
+            "hostname": "app-estoque",
+            "networks": ["apps"]
+        }
+    },
+    "networks": {
+        "apps": {
+            "external": true
+        }
+    }
+}
