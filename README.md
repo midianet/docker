@@ -18,7 +18,7 @@ sudo reboot now
  sudo apt install vim
 ```
 
-### Testando instalção
+### Testando instalação
 ```
 docker -v
 ```
@@ -397,6 +397,7 @@ crie o conteudo abaixo no fim do arquivo hosts especifico do seu SO<br>
 127.0.0.1 intranet.local<br>
 127.0.0.1 comercial.local<br>
 127.0.0.1 estoque.local<br>
+127.0.0.1 portainer.local
 
 ### Windows
 Abra o powershell como administrador e execute o comando na pasta
@@ -534,6 +535,22 @@ docker exec nginx nginx -s reload
 ```
 - acesse http://comercial.local
 - acesse http://estoque.local
+
+## Copiando arquivos para o Container
+Crie o arquivo portainer.conf com o conteúdo do arquivo [portainer.conf](https://github.com/midianet/docker/blob/main/nginx/portainer.conf)
+```
+cd ~/docker/nginx/
+vim portainer.conf
+docker cp portainer.conf nginx:/etc/nginx/conf.d  #copiando pra dentro
+docker cp nginx:/var/log/dpkg.log .  #copiando pra fora
+cat dpkg.log
+```
+
+## Portainer
+```
+docker run -d --name portainer -h portainer -v /var/run/docker.sock:/var/run/docker.sock --net apps  portainer/portainer-ce:2.9.3
+docker exec nginx nginx -s reload
+````
 
 # Docker Compose
 
