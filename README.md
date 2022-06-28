@@ -129,15 +129,18 @@ https://docs.docker.com/engine/reference/run/<br>
 docker run [opções] [imagem] [comando] [argumentos...]
 
 #### Opções
- -i #permite iteração com o container<br>
- -t #chama a tty (saída, output) do comando<br>
+ -it #permite iteração com o container e attacha a tty (saída, output) do comando<br>
  -d dettached #cria o container destacado
+ Para sair de um container sem matar o processo(bash no caso acima) use Ctrl p q (não consegui rodar no wsl terminal)
 ```
 docker run -it ubuntu
-```
-Para sair de um container sem matar o processo(bash no caso acima) use Ctrl p q (não consegui rodar no wsl terminal)
-```
-docker run -itd ubuntu #pode juntar como -itd , a ordem não importa
+#ficou?  imagem do ubuntu não tem cmd
+docker run -it ubuntu bash
+docker run -d ubuntu bash
+#ficou?
+docker run -itd ubuntu bash
+# a ordem não importa
+docker run -d nginx
 ```
 
 ### Parâmetro que define o Nome do container 
@@ -580,4 +583,29 @@ O docker-compose é escrito no formato yml. Para facilitar um entendimento, veja
 
 Crie o arquivo docker-compose.yml com o conteúdo do arquivo [docker-compose.yml](https://github.com/midianet/docker/blob/main/docker-compose.yml)  
 
-> Como escolher sua versão do docker-compose: https://docs.docker.com/compose/compose-file/compose-versioning/  
+> Como escolher sua versão do docker-compose: https://docs.docker.com/compose/compose-file/compose-versioning/ 
+
+
+
+
+
+# encaixar
+
+PID settings (–pid)
+Por padrão, todos os containers possuem o PID namespace habilitado. O Namespace PID remove o ponto de vista dos processos do sistema e permite IDs de processos para ser utilizado. Em alguns casos, você pode querer rodar alguma ferramenta de depuração em seu container para que ele consiga visualizar os processos do seu host, então basta iniciar o container com a opção de –pid ativada:
+ex
+  docker run -it --rm --pid=host imagem
+  É possível também utilizar o –pid para depurar as informações de outro container. Para isso, vamos iniciar a execução de um container com mongoDB e depois um container para realizar a depuração.
+ex:
+  docker run --name mongo -d mongodb 
+  docker run --it --pid=container:mongo imagem
+
+--dns por padrao usa o dns do host, mas vc pode pasar o dns específico
+--add-host adiciona hosts dentro do container
+
+--security-opt  limita quais comandos exigirão privilegios dentro do container
+como su sudo ex: security-opt no-new-privileges
+
+--isolation linux(default) windows (process e hyper-v)
+
+--device anexa um disco fisico do host no container
