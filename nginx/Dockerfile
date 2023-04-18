@@ -1,5 +1,5 @@
 #FROM alpine
-FROM ubuntu
+FROM ubuntu:22.10
 
 RUN apt update -y
 RUN apt install nginx -y
