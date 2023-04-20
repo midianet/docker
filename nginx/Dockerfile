@@ -1,5 +1,5 @@
 #FROM alpine
-FROM ubuntu
+FROM ubuntu:kinetic
 
 RUN apt update -y
 RUN apt install nginx -y
